@@ -35,3 +35,8 @@ def index_login(request):
             return HttpResponse('ok')
         return HttpResponseRedirect(request.get_full_path())
     return render(request, 'shop_login.html', {'next_url': next_url})
+
+
+def index(request):
+    products = Product.objects.all()
+    return render(request,'shop_list.html',{'products':products})

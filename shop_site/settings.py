@@ -123,3 +123,7 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'shop.User'
 
 LOGIN_URL = '/login/'
+
+MEDIA_URL = '/upload/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload').replace("//", "/")
