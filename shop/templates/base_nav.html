@@ -1,0 +1,19 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/index">商城首页</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav" style="width: 90%;">
+            <li><a href="/shopcar">购物车</a></li>
+            <li><a href="/order">订单</a></li>
+            {% if request.user.is_authenticated %}
+            <li style="float:right;"><a href="#">{{request.user.username}}</a></li>
+            {% else %}
+            <li style="float:right;"><a href="/login">登录</a></li>
+            
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+</nav>

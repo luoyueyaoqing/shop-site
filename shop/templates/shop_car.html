@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品</title>
+		<link rel="stylesheet" href="/static/css/bootstrap.css" />
+		<style>
+			body{
+				font-size: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		{% include 'base_nav.html' %}
+		<div class="container">
+			{% for sc in shopcart %}
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-1 ">
+									<img src="/upload/{{sc.product.pic}}" class="img-responsive" alt="Responsive image">
+								</div>
+								<div class="col-md-2">
+									<span>{{sc.product.describe}}</span>
+								</div>
+								<div class="col-md-2">
+									<span>单价：{{sc.product.price}}￥</span>
+								</div>
+								<div class="col-md-3">
+									<div class="col-md-4">数量：</div>
+									<div class="input-group col-md-6 input-group-sm" style="">
+										
+								        <a href="/del_shopcart/{{sc.id}}" class="input-group-addon">-</a>
+								        <input type="text" class="form-control input-sm" id="exampleInputAmount" value="{{ sc.count }}" readonly>
+								        <a href="/add_shopcart/{{sc.product.id}}" class="input-group-addon">+</a>
+								    </div>
+									
+								</div>
+								<div class="col-md-3">
+									<span>总价：{{ sc.total_price }}￥</span>
+								</div>
+								<div class="col-md-1">
+									<button type="button" class="btn btn-danger btn-xs">删除</button>
+								</div>
+							</div>
+							
+						</div>
+			 		
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+
+			<!--  -->
+			
+		</div>
+	</body>
+</html>
