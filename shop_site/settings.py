@@ -126,4 +126,4 @@ LOGIN_URL = '/login/'
 
 MEDIA_URL = '/upload/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'upload').replace("//", "/")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')

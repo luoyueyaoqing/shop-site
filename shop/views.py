@@ -39,4 +39,33 @@ def index_login(request):
 
 def index(request):
     products = Product.objects.all()
-    return render(request,'shop_list.html',{'products':products})
+    return render(request, 'shop_list.html', {'products': products})
+
+
+@login_required
+def shopcar(request):
+    shopcar = ShopCar.objects.filter(user=request.user)
+    return render(request, 'shop_car.html', {'shopcar': shopcar})
+
+
+@login_required
+def add_shopcar(request, id):
+    product = Product.objects.get(id=id)
+    product.count -= 1
+    shopcar, status = ShopCar.objects.get_or_create(user=request.user, product=product)
+    shopcar.count += 1
+    shopcar.total_price = shopcar.count * shopcar.product.price
+    shopcar.save()
+    return redirect('/shopcar/')
+
+
+@login_required
+def del_shopcar(request, id):
+    shopcar = ShopCar.objects.get(id=id)
+    shopcar.count -= 1
+    if shopcar.count < 1:
+        shopcar.delete()
+    else:
+        shopcar.total_price = shopcar.count * shopcar.product.price
+        shopcar.save()
+    return redirect(to='shopcar')

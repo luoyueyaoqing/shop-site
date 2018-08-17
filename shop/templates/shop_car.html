@@ -13,7 +13,7 @@
 	<body>
 		{% include 'base_nav.html' %}
 		<div class="container">
-			{% for sc in shopcart %}
+			{% for sc in shopcar %}
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -32,9 +32,9 @@
 									<div class="col-md-4">数量：</div>
 									<div class="input-group col-md-6 input-group-sm" style="">
 										
-								        <a href="/del_shopcart/{{sc.id}}" class="input-group-addon">-</a>
+								        <a href="/del_shopcar/{{sc.id}}" class="input-group-addon">-</a>
 								        <input type="text" class="form-control input-sm" id="exampleInputAmount" value="{{ sc.count }}" readonly>
-								        <a href="/add_shopcart/{{sc.product.id}}" class="input-group-addon">+</a>
+								        <a href="/add_shopcar/{{sc.product.id}}" class="input-group-addon">+</a>
 								    </div>
 									
 								</div>
@@ -53,8 +53,6 @@
 			</div>
 			{% endfor %}
 
-			<!--  -->
-			
 		</div>
 	</body>
 </html>

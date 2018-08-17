@@ -25,6 +25,7 @@ class ShopCar(models.Model):
     user = models.ForeignKey(to=User, related_name='shopcar')
     product = models.ForeignKey(to=Product, related_name='shopcars')
     count = models.IntegerField(default=0)
+    total_price = models.FloatField(default=0.0)
 
     def __str__(self):
         return '{}-{}-{}'.format(self.user.username, self.product.id, self.count)
