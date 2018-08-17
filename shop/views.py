@@ -69,3 +69,17 @@ def del_shopcar(request, id):
         shopcar.total_price = shopcar.count * shopcar.product.price
         shopcar.save()
     return redirect(to='shopcar')
+
+
+@login_required
+def delete_shopcar(request, shopcar_id):
+    shopcar = ShopCar.objects.get(id=shopcar_id)
+    shopcar.delete()
+    return redirect(to='shopcar')
+
+
+@login_required
+def generate(request):
+    shopcar = ShopCar.objects.filter(user=request.user)
+    return render(request, 'shop_generate_order.html', {'shopcar': shopcar })
+

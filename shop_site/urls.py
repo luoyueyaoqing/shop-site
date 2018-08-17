@@ -15,4 +15,7 @@ urlpatterns = [
     url(r'^shopcar/', views.shopcar, name='shopcar'),
     url(r'^add_shopcar/(?P<id>\d+)', views.add_shopcar, name='add_shopcar'),
     url(r'^del_shopcar/(?P<id>\d+)', views.del_shopcar, name='del_shopcar'),
+    url(r'^delete_shopcar/(?P<shopcar_id>\d+)', views.delete_shopcar, name='delete_shopcar'),
+
+    url(r'^generate/', views.generate, name='generate'),
 ]

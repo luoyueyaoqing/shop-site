@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品</title>
+		<link rel="stylesheet" href="css\bootstrap.css" />
+		<script src="js/jquery.js"></script>
+		<style>
+			body{
+				font-size: 16px;
+			}
+			.container-fluid .row{
+				margin-bottom: 10px;
+			}
+			h2{
+				text-align: center;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div class="container">
+			<h2>确认订单</h2>
+
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">买家信息</div>
+					<div class="panel-hody">
+						<table class="table table-hover">
+
+							<tr>
+								<td>姓名</td>
+								<td>{{ user }}</td>
+							</tr>
+							<tr>
+								<td>地址</td>
+								<td>{{ request.user.address }}</td>
+							</tr>
+							<tr>
+								<td>手机号</td>
+								<td>{{ request.user.telphone }}</td>
+							</tr>
+
+						</table>
+                        <hr>
+					</div>
+				</div>
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+			    		清单
+			    	</div>
+					<div class="panel-body">
+
+						<div class="container-fluid">
+			            {% for sc in shopcar %}
+                            <div class="row">
+								<div class="col-md-1 ">
+									<img src="/upload/{{ sc.product.pic }}/" class="img-responsive" width="150px" alt="Responsive image">
+								</div>
+								<div class="col-md-2">
+									<span>商品名称: {{ sc.product }}</span>
+								</div>
+								<div class="col-md-3">
+									<span>单价：{{ sc.product.price }}￥</span>
+								</div>
+								<div class="col-md-3">
+									<span>数量：{{ sc.count }}</span>
+
+								</div>
+								<div class="col-md-3">
+									<span>总价：{{ sc.total_price }}￥</span>
+								</div>
+
+							</div>
+                            {% endfor %}
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<h2>
+				<button class="btn btn-lg btn-primary">生成订单</button>
+				<button class="btn btn-lg btn-danger">再看看</button>
+			</h2>
+
+		</div>
+	</body>
+</html>
