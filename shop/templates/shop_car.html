@@ -52,7 +52,15 @@
 				</div>
 			</div>
 			{% endfor %}
+<h3>
+				{%if shopcar %}
+					<a href="/index" class="btn btn-lg btn-primary">再逛逛</a>
 
+				<a href="/generate" class="btn btn-lg btn-danger">去结账</a>
+				{% else %}
+				<a href="/index" class="btn btn-lg btn-primary">车内空空，再去逛逛</a>
+				{% endif %}
+</h3>
 		</div>
 	</body>
 </html>

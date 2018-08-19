@@ -18,4 +18,8 @@ urlpatterns = [
     url(r'^delete_shopcar/(?P<shopcar_id>\d+)', views.delete_shopcar, name='delete_shopcar'),
 
     url(r'^generate/', views.generate, name='generate'),
+    url(r'^generate_do/', views.generate_do, name='generate_do'),
+    url(r'^pay/(?P<orderid>\d+)', views.pay, name='pay'),
+    url(r'^order/', views.order, name='order'),
+    url(r'^del_order/(?P<id>\d+)', views.del_order, name='del_order'),
 ]

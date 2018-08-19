@@ -81,5 +81,53 @@ def delete_shopcar(request, shopcar_id):
 @login_required
 def generate(request):
     shopcar = ShopCar.objects.filter(user=request.user)
-    return render(request, 'shop_generate_order.html', {'shopcar': shopcar })
+    all_price = sum([sc.total_price for sc in shopcar])
+    return render(request, 'shop_generate_order.html', {'shopcar': shopcar, 'all_price': all_price})
 
+
+def generate_do(request):
+    shopcar = ShopCar.objects.filter(user=request.user)
+    if not shopcar:
+        return redirect(to='index')
+    all_price = sum([sc.total_price for sc in shopcar])
+    order = Order.objects.create(user=request.user, telphone=request.user.telphone, address=request.user.address,
+                                 total_price=all_price)
+    order.save()
+    for sc in shopcar:
+        orderproduct = OrderProduct(order=order, product=sc.product, price=sc.product.price, count=sc.count,
+                                    total_price=sc.total_price)
+        orderproduct.save()
+        sc.delete()
+        return redirect(to='pay', orderid=order.id)
+
+
+@login_required
+def pay(request, orderid):
+    order = Order.objects.filter(user=request.user, id=orderid, status='wait')
+    if not order.exists():
+        order = None
+    else:
+        order =order.first()
+    check_status = request.GET.get('check')
+    if order and check_status:
+        if check_status == 'pay':
+            order.status = 'complete'
+            pass
+        elif check_status == 'cancel':
+            order.status = 'overdue'
+        order.save()
+        return redirect(to='order')
+    return render(request, 'shop_pay.html', {'order': order})
+
+
+@login_required
+def order(request):
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'shop_order.html', {'orders': orders})
+
+
+@login_required
+def del_order(request, id):
+    order = Order.objects.get(user=request.user, id=id)
+    order.delete()
+    return redirect(to='order')

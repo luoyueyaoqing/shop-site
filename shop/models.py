@@ -17,6 +17,20 @@ class Product(models.Model):
     price = models.FloatField(default=0.0)
     count = models.IntegerField(default=0)
 
+    def have_count(self):
+        if self.count > 0:
+            return True
+        else:
+            return False
+
+    def del_count(self):
+        if self.have_count():
+            self.count -= 1
+            self.save()
+            return True
+        else:
+            return False
+
     def __str__(self):
         return '{}-{}'.format(self.describe[:20], self.price)
 
