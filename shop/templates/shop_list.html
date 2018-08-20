@@ -8,20 +8,50 @@
 	<body>
 		{% include 'base_nav.html' %}
 		<div class="container">
-			{% for product in products %}
+			{% for product in product_list %}
 			<div class="col-md-3 col-xs-12 col-sm-6">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<img src="{{ product.pic.url }}" class="img-responsive" alt="Responsive image">
 				 		<div style="padding-top:2em;">
-					 		{{product.describe}}
+					 		{{product.describe|slice:"20"}}(库存:{{ product.count }})
+							{% if product.count > 0 %}
 					 		<a href="/add_shopcar/{{ product.id }}" class="btn btn-info btn-xs" style="float:right;">加入购物车</a>
+							{% endif %}
 				 		</div>
 					</div>
 				</div>
 			</div>
-			{% endfor %}
-			
+		{% endfor %}
+
+			<nav aria-label="Page navigation" style="text-align: center;">
+				<ul class="pagination">
+					{% if product_list.has_previous %}
+					<li>
+					<a href="?page={{ product_list.previous_page_number }}" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+					</li>
+					{% endif %}
+
+				<!--{# 当前页码开始#}-->
+					{% for num in product_list.paginator.page_range %}
+						{% if num == currentPage %}
+							<li class="item active"><a href="?page={{ num }}">{{ num }}</a></li>
+						{% else %}
+							<li class="item"><a href="?page={{ num }}">{{ num }}</a></li>
+						{% endif %}
+					{% endfor %}
+
+					{% if product_list.has_next %}
+					<li>
+					<a href="?page={{ product_list.next_page_number }}" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+					</li>
+					{% endif %}
+				</ul>
+			</nav>
 		</div>
 	</body>
 </html>

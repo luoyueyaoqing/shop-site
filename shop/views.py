@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def index_register(request):
@@ -38,8 +39,21 @@ def index_login(request):
 
 
 def index(request):
+    # from random import randint
+    # for i in range(50):
+    #     product = Product.objects.create(pic="product_pic/IMG_0766.PNG", describe="product--{}".format(i*i), price=randint(20, 200), count=randint(5, 50))
     products = Product.objects.all()
-    return render(request, 'shop_list.html', {'products': products})
+    paginator = Paginator(products, 8)
+    # 从前端获取当前的页码数,默认为1
+    page = request.GET.get('page', 1)
+    currentPage = int(page)
+    try:
+        product_list = paginator.page(page)  # 获取当前页码的记录
+    except PageNotAnInteger:
+        product_list = paginator.page(1)
+    except EmptyPage:
+        product_list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
+    return render(request, 'shop_list.html', {'products': products, 'product_list': product_list})
 
 
 @login_required
@@ -85,6 +99,7 @@ def generate(request):
     return render(request, 'shop_generate_order.html', {'shopcar': shopcar, 'all_price': all_price})
 
 
+@login_required
 def generate_do(request):
     shopcar = ShopCar.objects.filter(user=request.user)
     if not shopcar:
@@ -103,20 +118,20 @@ def generate_do(request):
 
 @login_required
 def pay(request, orderid):
-    order = Order.objects.filter(user=request.user, id=orderid, status='wait')
+    order = Order.objects.filter(user=request.user, id=orderid, status="wait")
     if not order.exists():
         order = None
     else:
-        order =order.first()
+        order = order.first()
     check_status = request.GET.get('check')
-    if order and check_status:
-        if check_status == 'pay':
-            order.status = 'complete'
-            pass
-        elif check_status == 'cancel':
-            order.status = 'overdue'
+    if check_status and order:
+        if check_status == "pay":
+            order.status = "complete"
+            [orderprodduct.product.del_count() for orderprodduct in order.orders.all()]
+        elif check_status == "cancel":
+            order.status = "overdue"
         order.save()
-        return redirect(to='order')
+        return redirect(to="order")
     return render(request, 'shop_pay.html', {'order': order})
 
 

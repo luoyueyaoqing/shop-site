@@ -60,7 +60,7 @@ class Order(models.Model):
     status = models.CharField(max_length=9, choices=STATUS, default='wait')
 
     def __str__(self):
-        return self.product.describe
+        return self.status
 
 
 class OrderProduct(models.Model):

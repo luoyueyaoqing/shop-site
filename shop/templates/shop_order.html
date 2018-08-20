@@ -59,9 +59,10 @@
 					    <a href="/del_order/{{ order.id }}" class="btn btn-xs btn-danger" style="float:right;margin-left:5px;">删除</a>
 
 					</div>
+
 					<div id="footer-{{order.id}}" class="panel-footer " style="display: none;">
 						<div class="container-fluid">
-							{% for product in order.orders.all %}
+					{% for product in order.orders.all %}
 							<div class="row">
 								<div class="col-md-1 ">
 									<img src="/upload/{{product.product.pic}}" class="img-responsive" alt="Responsive image">
