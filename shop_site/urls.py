@@ -9,7 +9,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^register/', views.index_register, name='register'),
     url(r'^login/', views.index_login, name='login'),
+    url(r'^logout/', views.index_logout, name='logout'),
 
+    url(r'^user/', views.shop_user, name='shop_user'),
+    url(r'^update_user/', views.update_user, name='update_user'),
     url(r'^index/', views.index, name='index'),
     url(r'^upload/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     url(r'^shopcar/', views.shopcar, name='shopcar'),

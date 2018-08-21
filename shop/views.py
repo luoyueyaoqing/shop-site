@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from .models import User, ShopCar, Product, OrderProduct, Order
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -32,10 +32,32 @@ def index_login(request):
             login(request, form.get_user())
             if next_url:
                 return redirect(next_url)
-            # return redirect('index')
-            return HttpResponse('ok')
+            return redirect('index')
         return HttpResponseRedirect(request.get_full_path())
     return render(request, 'shop_login.html', {'next_url': next_url})
+
+
+def index_logout(request):
+    logout(request)
+    return redirect(to='index')
+
+
+@login_required
+def shop_user(request):
+    user = request.user
+    return render(request, 'shop_user.html', {'user': user})
+
+
+@login_required
+def update_user(request):
+    user = request.user
+    if request.method == "POST":
+        user.nickname = request.POST.get('nickname')
+        user.telphone = request.POST.get('telphone')
+        user.address = request.POST.get('address')
+        user.save()
+        return redirect(to='shop_user')
+    return render(request, 'update_user.html', {'user': user})
 
 
 def index(request):
