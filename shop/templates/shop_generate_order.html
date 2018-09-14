@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>商品</title>
-		<link rel="stylesheet" href="css\bootstrap.css" />
+		<!--<link rel="stylesheet" href="css\bootstrap.css" />-->
+		    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<script src="js/jquery.js"></script>
 		<style>
 			body{
@@ -81,7 +82,7 @@
 			</div>
 			<h3>
 				<a href="/generate_do" class="btn btn-lg btn-primary">生成订单</a>
-				<a href="/index" class="btn btn-lg btn-primary">再看看</a>
+				<a href="{% url 'index' %}" class="btn btn-lg btn-primary">再看看</a>
 			</h3>
 		</div>
 	</body>

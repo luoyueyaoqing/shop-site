@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>商品</title>
-		<link rel="stylesheet" href="/static/css/bootstrap.css" />
-		<script src="/static/js/jquery.js"></script>
-		<style>
+<head>
+    <meta charset="UTF-8">
+    <title>商品</title>
+    <!--<link rel="stylesheet" href="/static/css/bootstrap.css"/>-->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="/static/js/jquery.js"></script>
+
+    <style>
 			body{
 				font-size: 16px;
 			}
 			.container-fluid .row{
 				margin-bottom: 10px;
 			}
-		</style>
-		<script>
+
+    </style>
+    <script>
             function show_hidden(el){
                 $("#footer-"+el).show()
                 $("#show-"+el).hide()
@@ -25,74 +28,83 @@
                 $("#hide-"+el).hide()
             };
 
-        </script>
-	</head>
-	<body>
-		{% include 'base_nav.html' %}
-		<div class="container">
 
-			<div class="col-md-12">
-				{% for order in orders %}
-					{% if order.status == 'wait' %}
-					<div class="panel panel-warning">
-					{% elif order.status == 'overdue' %}
-					<div class="panel panel-danger">
-					{% elif order.status == 'complete' %}
-					<div class="panel panel-success">
-					{% elif order.status == 'refund' %}
-					<div class="panel panel-danger">
-					{% else %}
-					<div class="panel panel-warning">
-					{% endif %}
-					<div class="panel-heading">
-						等待付款
-						<span style="margin-left:2em;">订单号:{{order.id}}  </span>
-			    	</div>
-					<div class="panel-body">
-						<span >总金额：{{order.total_price}}￥</span>
-						<!-- <span style="margin-left:2em;">产品种类：{{order.orders.count}}</span> -->
-					    <button id="show-{{order.id}}" onclick="show_hidden({{order.id}})" class="btn btn-xs btn-success" style="float:right;margin-left:5px;">显示详情</button>
-					    <button id="hide-{{order.id}}" onclick="hidden_show({{order.id}})"class="btn btn-xs btn-success" style="float:right;margin-left:5px;display: none;">隐藏详情</button>
-						{% if order.status == 'wait' %}
-						<a href="/pay/{{order.id}}" class="btn btn-xs btn-info" style="float:right;margin-left:5px;">付款</a>
-						{% endif %}
-					    <a href="/del_order/{{ order.id }}" class="btn btn-xs btn-danger" style="float:right;margin-left:5px;">删除</a>
+    </script>
+</head>
+<body>
+{% include 'base_nav.html' %}
+<div class="container">
 
-					</div>
+    <div class="col-md-12">
+        {% for order in orders %}
+        {% if order.status == 'wait' %}
+        <div class="panel panel-warning">
+            {% elif order.status == 'overdue' %}
+            <div class="panel panel-danger">
+                {% elif order.status == 'complete' %}
+                <div class="panel panel-success">
+                    {% elif order.status == 'refund' %}
+                    <div class="panel panel-danger">
+                        {% else %}
+                        <div class="panel panel-warning">
+                            {% endif %}
+                            <div class="panel-heading">
+                                等待付款
+                                <span style="margin-left:2em;">订单号:{{order.id}}  </span>
+                            </div>
+                            <div class="panel-body">
+                                <span>总金额：{{order.total_price}}￥</span>
+                                <!-- <span style="margin-left:2em;">产品种类：{{order.orders.count}}</span> -->
+                                <button id="show-{{order.id}}" onclick="show_hidden({{order.id}})"
+                                        class="btn btn-xs btn-success" style="float:right;margin-left:5px;">显示详情
+                                </button>
+                                <button id="hide-{{order.id}}" onclick="hidden_show({{order.id}})"
+                                        class="btn btn-xs btn-success"
+                                        style="float:right;margin-left:5px;display: none;">隐藏详情
+                                </button>
+                                {% if order.status == 'wait' %}
+                                <a href="/pay/{{order.id}}" class="btn btn-xs btn-info"
+                                   style="float:right;margin-left:5px;">付款</a>
+                                {% endif %}
+                                <a href="/del_order/{{ order.id }}" class="btn btn-xs btn-danger"
+                                   style="float:right;margin-left:5px;">删除</a>
 
-					<div id="footer-{{order.id}}" class="panel-footer " style="display: none;">
-						<div class="container-fluid">
-					{% for product in order.orders.all %}
-							<div class="row">
-								<div class="col-md-1 ">
-									<img src="/upload/{{product.product.pic}}" class="img-responsive" alt="Responsive image">
-								</div>
-								<div class="col-md-2">
-									<span>{{product.product.describe}}</span>
-								</div>
-								<div class="col-md-3">
-									<span>单价：{{product.price}}￥</span>
-								</div>
-								<div class="col-md-3">
-									<span>数量：{{product.count}}</span>
+                            </div>
 
-								</div>
-								<div class="col-md-3">
-									<span>总价：{{product.total_price}}￥</span>
-								</div>
+                            <div id="footer-{{order.id}}" class="panel-footer " style="display: none;">
+                                <div class="container-fluid">
+                                    {% for product in order.orders.all %}
+                                    <div class="row">
+                                        <div class="col-md-1 ">
+                                            <img src="/upload/{{product.product.pic}}" class="img-responsive"
+                                                 alt="Responsive image">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span>{{product.product.describe}}</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>单价：{{product.price}}￥</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>数量：{{product.count}}</span>
 
-							</div>
-							{% endfor %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span>总价：{{product.total_price}}￥</span>
+                                        </div>
 
-						</div>
+                                    </div>
+                                    {% endfor %}
 
-					</div>
-				</div>
-				{% endfor %}
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
 
 
-			</div>
+                    </div>
 
-		</div>
-	</body>
+                </div>
+</body>
 </html>
