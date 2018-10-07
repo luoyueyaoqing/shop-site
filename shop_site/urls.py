@@ -7,7 +7,7 @@ from .settings import MEDIA_ROOT
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^register/', views.index_register, name='register'),
+    url(r'^register/$', views.index_register, name='register'),
     url(r'^login/', views.index_login, name='login'),
     url(r'^logout/', views.index_logout, name='logout'),
     url(r'^$', views.index, name='index'),
@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'^pay/(?P<orderid>\d+)', views.pay, name='pay'),
     url(r'^order/', views.order, name='order'),
     url(r'^del_order/(?P<id>\d+)', views.del_order, name='del_order'),
+
+    url(r'^register/verifyCode/', views.verifyCode, name='verifyCode'),
+
 ]

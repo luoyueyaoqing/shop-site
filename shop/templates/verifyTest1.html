@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证</title>
+</head>
+<body>
+<form action="{% url 'verifyTest2' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="code1">
+    <img src="verifyCode">
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

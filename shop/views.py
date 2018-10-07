@@ -12,15 +12,20 @@ def index_register(request):
         username = request.POST.get('username')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-        if not User.objects.filter(username=username).exists():
-            if password1 == password2:
-                User.objects.create_user(username=username, password=password1)
-                messages.success(request, '注册成功')
-                return redirect(to='login')
+        code1 = request.POST.get('code1')
+        code2 = request.session.get('code')
+        if code1 == code2:
+            if not User.objects.filter(username=username).exists():
+                if password1 == password2:
+                    User.objects.create_user(username=username, password=password1)
+                    messages.success(request, '注册成功')
+                    return redirect(to='login')
+                else:
+                    messages.warning(request, '两次密码输入不一致')
             else:
-                messages.warning(request, '两次密码输入不一致')
+                messages.warning(request, "账号已存在")
         else:
-            messages.warning(request, "账号已存在")
+            messages.warning(request, '验证码输入错误')
     return render(request, 'shop_register.html')
 
 
@@ -168,3 +173,35 @@ def del_order(request, id):
     order = Order.objects.get(user=request.user, id=id)
     order.delete()
     return redirect(to='order')
+
+
+# 验证码
+def verifyCode(request):
+    import random
+    from PIL import Image, ImageDraw, ImageFont
+    # 创建背景色,宽,高
+    bgColor = (random.randrange(30, 100), random.randrange(30, 100), 0)
+    width = 100
+    height = 25
+    # 创建画布
+    image = Image.new('RGB', (width, height), bgColor)
+    # 构造字体颜色
+    fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
+    # 创建画笔
+    draw = ImageDraw.Draw(image)
+    # 创建文本内容
+    text = '012345ABCDEFG'
+    # 逐个绘制文本内容
+    textTemp = ''
+    for i in range(4):
+        text1 = text[random.randrange(0, len(text))]
+        textTemp += text1
+        draw.text((i * 25, 10),
+                  text1,
+                  fill=fontcolor)
+    request.session['code'] = textTemp
+    # 保存到内存流中
+    from io import BytesIO
+    buf = BytesIO()
+    image.save(buf, 'png')
+    return HttpResponse(buf.getvalue(), 'image/png')
