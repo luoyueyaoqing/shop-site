@@ -6,9 +6,16 @@ class User(AbstractUser):
     nickname = models.CharField(verbose_name="昵称", max_length=32, null=True, blank=True)
     telphone = models.CharField(verbose_name="手机号码", max_length=11)
     address = models.CharField(verbose_name="邮寄地址", max_length=128)
+    pic = models.ImageField(upload_to="user_pic", default="user_pic/IMG_0766.PNG")
 
     def __str__(self):
         return self.nickname or self.username
+
+
+# # 自定义产品管理器,对于库存为 0 的不显示
+# class ProductManager(models.Manager):
+#     def get_queryset(self):
+#         return super(ProductManager, self).get_queryset().filter(count__gt=0)
 
 
 class Product(models.Model):
@@ -16,6 +23,7 @@ class Product(models.Model):
     describe = models.TextField()
     price = models.FloatField(default=0.0)
     count = models.IntegerField(default=0)
+    # productmanager = ProductManager()
 
     def have_count(self):
         if self.count > 0:
@@ -32,7 +40,7 @@ class Product(models.Model):
             return False
 
     def __str__(self):
-        return '{}-{}'.format(self.describe[:20], self.price)
+        return '{}'.format(self.describe[:20])
 
 
 class ShopCar(models.Model):
