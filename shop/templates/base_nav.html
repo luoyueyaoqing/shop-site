@@ -9,7 +9,8 @@
             <li><a href="/order">订单</a></li>
             {% if request.user.is_authenticated %}
             <li style="float:right;"><a href="/user/">{{request.user.username}}</a></li>
-            <li style="float:right;"><a href="/logout">注销</a></li>
+            <li style="float:right;"><img src="{{ request.user.pic.url }}" width="30"  alt="image"></li>
+            <li style="float:right;"><a href="/logout/">注销</a></li>
             {% else %}
             <li style="float:right;"><a href="/login">登录</a></li>
             

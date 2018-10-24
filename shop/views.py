@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.decorators.cache import cache_page
 
 
 def index_register(request):
@@ -65,6 +66,7 @@ def update_user(request):
     return render(request, 'update_user.html', {'user': user})
 
 
+# @cache_page(60 * 10)
 def index(request):
     # from random import randint
     # for i in range(50):
@@ -80,7 +82,7 @@ def index(request):
         product_list = paginator.page(1)
     except EmptyPage:
         product_list = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
-    return render(request, 'shop_list.html', {'products': products, 'product_list': product_list})
+    return render(request, 'shop_list.html', {'product_list': product_list})
 
 
 @login_required
@@ -190,13 +192,13 @@ def verifyCode(request):
     # 创建画笔
     draw = ImageDraw.Draw(image)
     # 创建文本内容
-    text = '012345ABCDEFG'
+    text = '0123456789ABCDEFG'
     # 逐个绘制文本内容
     textTemp = ''
     for i in range(4):
         text1 = text[random.randrange(0, len(text))]
         textTemp += text1
-        draw.text((i * 25, 10),
+        draw.text((i * 25, 5),
                   text1,
                   fill=fontcolor)
     request.session['code'] = textTemp

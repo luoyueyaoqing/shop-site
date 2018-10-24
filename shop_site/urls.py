@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^order/', views.order, name='order'),
     url(r'^del_order/(?P<id>\d+)', views.del_order, name='del_order'),
 
-    url(r'^register/verifyCode/', views.verifyCode, name='verifyCode'),
+    url(r'^verifyCode/', views.verifyCode, name='verifyCode'),
 
 ]
